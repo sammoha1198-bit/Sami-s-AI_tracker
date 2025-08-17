@@ -8,8 +8,13 @@ services:
     envVars:
       - key: TZ
         value: Asia/Riyadh
-      # Choose ONE DB option (see next block)
+      - key: PYTHON_VERSION
+        value: 3.11.8             # force Python 3.11 on Render
+      # If you use SQLite + disk:
+      # - key: DATABASE_URL
+      #   value: sqlite:////var/data/ai_tracker.db
     disk:
       name: data
       mountPath: /var/data
       sizeGB: 1
+
