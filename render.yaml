@@ -1,16 +1,18 @@
 services:
   - type: web
     name: ai-maintenance-tracker
-    env: python
-    plan: free
+    runtime: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn -k uvicorn.workers.UvicornWorker ai_tracker_app:app --bind 0.0.0.0:$PORT
-    envVars:
-      - key: DATABASE_URL
-        value: sqlite:////data/ai_tracker.db
+    startCommand: uvicorn ai_tracker_app:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
-    autoDeploy: true
+    envVars:
+      - key: TZ
+        value: Asia/Riyadh
+      # One of the following depending on your DB choice:
+      # - key: DATABASE_URL
+      #   value: sqlite:////var/data/ai_tracker.db
+    # If using SQLite, keep the disk:
     disk:
-      name: db
-      mountPath: /data
+      name: data
+      mountPath: /var/data
       sizeGB: 1
