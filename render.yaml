@@ -3,15 +3,12 @@ services:
     name: ai-maintenance-tracker
     runtime: python
     buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn ai_tracker_app:app --host 0.0.0.0 --port $PORT
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
     envVars:
       - key: TZ
         value: Asia/Riyadh
-      # One of the following depending on your DB choice:
-      # - key: DATABASE_URL
-      #   value: sqlite:////var/data/ai_tracker.db
-    # If using SQLite, keep the disk:
+      # Choose ONE DB option (see next block)
     disk:
       name: data
       mountPath: /var/data
